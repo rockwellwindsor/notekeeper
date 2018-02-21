@@ -35,7 +35,7 @@
     <EditText
         android:id="@+id/et_note_body"
         android:layout_width="0dp"
-        android:layout_height="45dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:ems="10"
         android:hint="@string/note_body"

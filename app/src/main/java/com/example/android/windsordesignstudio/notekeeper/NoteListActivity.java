@@ -13,9 +13,13 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
+import com.example.android.windsordesignstudio.notekeeper.adapter.NoteRecyclerAdapter;
+
 import java.util.List;
 
 public class NoteListActivity extends AppCompatActivity {
+
+    private NoteRecyclerAdapter mNoteRecyclerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,36 +42,17 @@ public class NoteListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-//        mAdapterNotes.notifyDataSetChanged();
+        mNoteRecyclerAdapter.notifyDataSetChanged();
     }
 
     private void initializeDisplayContent() {
 
-//        // Get reference to ListView
-//        final ListView mListNotes = (ListView) findViewById(R.id.list_notes);
-//
-//        // Get notes
-//        List<NoteInfo> notes = DataManager.getInstance().getNotes();
-//
-//        // Create Array Adapter
-//        mAdapterNotes = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, notes);
-//
-//        // Set Adapter to the note list
-//        mListNotes.setAdapter(mAdapterNotes);
-//
-//        // Display note on item click
-//        mListNotes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(NoteListActivity.this, NoteActivity.class);
-////                NoteInfo note = (NoteInfo) mListNotes.getItemAtPosition(position);
-//                intent.putExtra(NoteActivity.NOTE_POSITION, position);
-//                startActivity(intent);
-//            }
-//        });
-
          final RecyclerView recyclerNotes = (RecyclerView) findViewById(R.id.rv_list_notes);
          final LinearLayoutManager notesLayoutManager = new LinearLayoutManager(this);
          recyclerNotes.setLayoutManager(notesLayoutManager);
+
+         List<NoteInfo> notes = DataManager.getInstance().getNotes();
+         mNoteRecyclerAdapter = new NoteRecyclerAdapter(this, notes);
+         recyclerNotes.setAdapter(mNoteRecyclerAdapter);
     }
 }
