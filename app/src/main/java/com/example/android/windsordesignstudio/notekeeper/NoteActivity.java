@@ -3,6 +3,7 @@ package com.example.android.windsordesignstudio.notekeeper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -142,9 +144,45 @@ public class NoteActivity extends AppCompatActivity {
         } else if (id == R.id.action_cancel) {
             mIsCancelling = true;
             finish();
+        } else if ( id == R.id.action_next) {
+            moveNext();
+        } else if ( id == R.id.action_previous) {
+            movePrevious();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+
+        MenuItem next_item = menu.findItem(R.id.action_next);
+        MenuItem previous_item = menu.findItem(R.id.action_previous);
+
+        int lastNoteIndex = DataManager.getInstance().getNotes().size() -1;
+
+        next_item.setEnabled(mNotePosition < lastNoteIndex);
+        previous_item.setEnabled(mNotePosition > 0);
+
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    private void movePrevious() {
+        saveNote();                                                      // Since we save when navigating away we need to save the note
+        --mNotePosition;                                                 // Decrement the note position counter
+        mNote = DataManager.getInstance().getNotes().get(mNotePosition); // Get the note at the next position which was decremented down above
+        saveOriginalNoteValues();                                        // Save original values for the note
+        displayNote(mCourseSpinner, mNoteTitle, mNoteBody);              // Display the next note
+        invalidateOptionsMenu();                                         // The system will run onPrepareOptionsMenu
+    }
+
+    private void moveNext() {
+        saveNote();                                                      // Since we save when navigating away we need to save the note
+        ++mNotePosition;                                                 // Increment the note position counter
+        mNote = DataManager.getInstance().getNotes().get(mNotePosition); // Get the note at the next position which was incremented up above
+        saveOriginalNoteValues();                                        // Save original values for the note
+        displayNote(mCourseSpinner, mNoteTitle, mNoteBody);              // Display the next note
+        invalidateOptionsMenu();                                         // The system will run onPrepareOptionsMenu
     }
 
     private void sendEmail() {
