@@ -4,4 +4,8 @@
     <string name="note_title">Note title</string>
     <string name="note_body">Take your note...</string>
     <string name="title_activity_note">Edit Note</string>
+    <string name="title_activity_main">Note Keeper</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
