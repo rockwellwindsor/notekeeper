@@ -1,2 +1,23 @@
 <resources>
+    <!-- Pluralsight branded application theme. -->
+    <style name="PluralSight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/pluralsightOrange</item>
+        <item name="colorPrimaryDark">@color/pluralsightDarkOrange</item>
+        <item name="colorAccent">@color/pluralsightAccent</item>
+    </style>
+
+    <style name="PluralSight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="PluralSight.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <style name="PluralSight.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="CourseTitle" parent="@android:style/TextAppearance.Material.Medium">
+        <item name="android:textColor">@color/pluralsightOrange</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>
