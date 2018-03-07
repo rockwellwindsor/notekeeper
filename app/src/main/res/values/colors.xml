@@ -3,7 +3,7 @@
     <color name="black">#000000</color>
     <color name="pluralsightOrange">#F05A2B</color>
     <color name="pluralsightLightOrange">#f7ac95</color>
-    <color name="pluralsightDarkOrange">#a83e1e</color>
+    <color name="pluralsightDark">#333333</color>
     <color name="pluralsightAccent">#AAAAAA</color>
 
     <color name="colorPrimary">#3F51B5</color>
