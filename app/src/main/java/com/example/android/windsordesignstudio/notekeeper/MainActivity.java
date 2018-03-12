@@ -2,6 +2,7 @@ package com.example.android.windsordesignstudio.notekeeper;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.android.windsordesignstudio.notekeeper.adapter.CourseRecyclerAdapter;
 import com.example.android.windsordesignstudio.notekeeper.adapter.NoteRecyclerAdapter;
+import com.example.android.windsordesignstudio.notekeeper.database.NoteKeeperOpenHelper;
 
 import java.util.List;
 
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private RecyclerView mRecyclerItems;
     private LinearLayoutManager mNotesLayoutManager;
     private GridLayoutManager mCoursesLayoutManager;
+    private NoteKeeperOpenHelper mDBOpenHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +43,8 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mDBOpenHelper = new NoteKeeperOpenHelper(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +90,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initializeDisplayContent() {
-
+        DataManager.loadFromDatabase(mDBOpenHelper);
         mRecyclerItems = (RecyclerView) findViewById(R.id.rv_list_items);
         mNotesLayoutManager = new LinearLayoutManager(this);
         mCoursesLayoutManager = new GridLayoutManager(this, 2);
@@ -180,5 +185,11 @@ public class MainActivity extends AppCompatActivity
     private void handleSelection(String message) {
         View view = findViewById(R.id.rv_list_items);
         Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        mDBOpenHelper.close();
+        super.onDestroy();
     }
 }
