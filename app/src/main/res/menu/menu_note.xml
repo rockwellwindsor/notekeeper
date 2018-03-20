@@ -11,12 +11,14 @@
         android:icon="@android:drawable/ic_media_rew"
         android:orderInCategory="101"
         android:title="previous"
+        android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_next"
         android:icon="@android:drawable/ic_media_ff"
         android:orderInCategory="102"
         android:title="next"
+        android:visible="false"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_send_mail"
