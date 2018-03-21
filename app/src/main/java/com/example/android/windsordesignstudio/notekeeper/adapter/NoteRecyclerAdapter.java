@@ -10,12 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.android.windsordesignstudio.notekeeper.NoteActivity;
-import com.example.android.windsordesignstudio.notekeeper.NoteInfo;
 import com.example.android.windsordesignstudio.notekeeper.R;
 import com.example.android.windsordesignstudio.notekeeper.database.NoteKeeperDatabaseContract;
 import com.example.android.windsordesignstudio.notekeeper.database.NoteKeeperDatabaseContract.NoteInfoEntry;
 
-import java.util.List;
+import static com.example.android.windsordesignstudio.notekeeper.database.NoteKeeperDatabaseContract.CourseInfoEntry.*;
 
 /**
  * Created by Rockwell Rice on 2/21/18.
@@ -41,7 +40,7 @@ public class NoteRecyclerAdapter extends RecyclerView.Adapter<NoteRecyclerAdapte
         if(mCursor == null)
             return;
 
-        mCoursePos = mCursor.getColumnIndex(NoteInfoEntry.COLUMN_COURSE_ID);
+        mCoursePos = mCursor.getColumnIndex(NoteKeeperDatabaseContract.CourseInfoEntry.COLUMN_COURSE_TITLE);
         mNoteTitlePos = mCursor.getColumnIndex(NoteInfoEntry.COLUMN_NOTE_TITLE);
         mIdPos = mCursor.getColumnIndex(NoteInfoEntry._ID);
     }
