@@ -247,9 +247,12 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void createNewNote() {
-        DataManager dm = DataManager.getInstance();
-        mNoteId = dm.createNewNote();
-//        mNote = dm.getNotes().get(mNoteId);
+        ContentValues values = new ContentValues();
+        values.put(NoteInfoEntry.COLUMN_COURSE_ID, "");
+        values.put(NoteInfoEntry.COLUMN_NOTE_TITLE, "");
+        values.put(NoteInfoEntry.COLUMN_NOTE_TEXT, "");
+        SQLiteDatabase db = mDbOpenHelper.getWritableDatabase();
+        mNoteId = (int) db.insert(NoteInfoEntry.TABLE_NAME, null, values); // Return value from the db is a LONG so we have to cast it to an INT using (int)
     }
 
     @Override
@@ -401,7 +404,6 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     /*
-
     * Need to call this method from two places
     * When courses query finishes and when notes query finishes
     *
