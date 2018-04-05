@@ -116,7 +116,8 @@ public class MainActivity extends AppCompatActivity
         DataManager.loadFromDatabase(mDBOpenHelper);
         mRecyclerItems = (RecyclerView) findViewById(R.id.rv_list_items);
         mNotesLayoutManager = new LinearLayoutManager(this);
-        mCoursesLayoutManager = new GridLayoutManager(this, 2);
+        mCoursesLayoutManager = new GridLayoutManager(this,
+                getResources().getInteger(R.integer.course_grid_span));
 
 
         mNoteRecyclerAdapter = new NoteRecyclerAdapter(this, null);
