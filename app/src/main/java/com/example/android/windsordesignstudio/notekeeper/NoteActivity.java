@@ -12,14 +12,17 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 
 import com.example.android.windsordesignstudio.notekeeper.NoteKeeperProviderContract.Courses;
@@ -266,13 +269,69 @@ public class NoteActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     private void createNewNote() {
+
+        /*
+        * The values passed to Async task go in this order:
+        * 1 - The value to be passed to doInBackground()
+        * 2 - The value to be passed to onPreExecute()
+        * 3 - The value to be passed from doInBackground() to onPostExecute()
+        */
+        AsyncTask<ContentValues, Integer, Uri> task = new AsyncTask<ContentValues, Integer, Uri>() {
+            private ProgressBar mProgressBar;
+
+            /*
+            * Runs in the main thread, so it is safe for us to get a reference the UI
+            */
+            @Override
+            protected void onPreExecute() {
+                mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
+                mProgressBar.setVisibility(View.VISIBLE);
+                mProgressBar.setProgress(1);
+            }
+
+            @Override
+            protected Uri doInBackground(ContentValues... contentValues) {
+                ContentValues insertValues = contentValues[0];
+                Uri rowUri = getContentResolver().insert(Notes.CONTENT_URI, insertValues);
+                simulateLongRunningWork();  // simulate slow database work
+                publishProgress(2); // Calls onProgressUpdate()
+
+                simulateLongRunningWork();  // simulate slow work with data
+                publishProgress(3); // Calls onProgressUpdate()
+                return rowUri;
+            }
+
+            @Override
+            protected void onProgressUpdate(Integer... values) {
+                int progressValue = values[0];
+                mProgressBar.setProgress(progressValue);
+            }
+
+            @Override
+            protected void onPostExecute(Uri uri) {
+                mNoteUri = uri;
+                mProgressBar.setVisibility(View.GONE);
+                displaySnackbar(mNoteUri.toString());
+            }
+        };
+
         ContentValues values = new ContentValues();
         values.put(Notes.COLUMN_COURSE_ID, "");
         values.put(Notes.COLUMN_NOTE_TITLE, "");
         values.put(Notes.COLUMN_NOTE_TEXT, "");
 
-        // Get reference to content resolver
-        mNoteUri = getContentResolver().insert(Notes.CONTENT_URI, values);
+        task.execute(values); // The parameter we pass here is received by doInBackground()
+    }
+
+    private void displaySnackbar(String message) {
+        View view = findViewById(R.id.sp_course_select);
+        Snackbar.make(view, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    private void simulateLongRunningWork() {
+        try {
+            Thread.sleep(2000);
+        } catch(Exception ex) {}
     }
 
     @Override
