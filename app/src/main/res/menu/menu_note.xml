@@ -11,22 +11,22 @@
         android:icon="@android:drawable/ic_media_rew"
         android:orderInCategory="101"
         android:title="previous"
-        android:visible="false"
+        android:visible="true"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_next"
         android:icon="@android:drawable/ic_media_ff"
         android:orderInCategory="102"
         android:title="next"
-        android:visible="false"
+        android:visible="true"
         app:showAsAction="always"/>
     <item
         android:id="@+id/action_send_mail"
-        android:orderInCategory="103"
-        android:title="Send as email"
-        app:showAsAction="never"/>
+        android:orderInCategory="104"
+        android:title="Send as email" />
     <item
         android:id="@+id/action_set_reminder"
-        android:orderInCategory="104"
+        android:visible="true"
+        android:orderInCategory="105"
         android:title="Set reminder"/>
 </menu>

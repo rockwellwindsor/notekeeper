@@ -51,7 +51,12 @@ public class NoteReminderNotification {
         Intent noteActivityIntent = new Intent(context, NoteActivity.class);
         noteActivityIntent.putExtra(NoteActivity.NOTE_ID, noteId);
 
-        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+        Intent backupServiceIntent = new Intent(context, NoteBackupService.class);
+        backupServiceIntent.putExtra(NoteBackupService.EXTRA_COURSE_ID, NoteBackup.ALL_COURSES);
+
+        String channelId = "1";
+
+        final NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelId)
 
                 // Set appropriate defaults for the notification light, sound,
                 // and vibration.
@@ -109,6 +114,15 @@ public class NoteReminderNotification {
                                 context,
                                 0,
                                 new Intent(context, MainActivity.class),
+                                PendingIntent.FLAG_UPDATE_CURRENT
+                        )
+                )
+                .addAction(0,
+                        "Backup Notes",
+                        PendingIntent.getService(
+                                context,
+                                0,
+                                backupServiceIntent,
                                 PendingIntent.FLAG_UPDATE_CURRENT
                         )
                 )
