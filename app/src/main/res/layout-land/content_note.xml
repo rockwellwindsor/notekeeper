@@ -54,7 +54,7 @@
         app:layout_constraintGuide_begin="278dp"/>
 
     <view
-        android:id="@+id/view3"
+        android:id="@+id/module_status"
         class="com.example.android.windsordesignstudio.notekeeper.ModuleStatusView"
         id="@+id/view"
         android:layout_width="0dp"
